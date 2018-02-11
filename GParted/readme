@@ -12,4 +12,4 @@
 LABEL GParted Live
 MENU LABEL GParted Live
 KERNEL gparted/vmlinuz
-APPEND initrd=gparted/initrd.img boot=live config components union=overlay username=user noswap noeject ip= vga=788 fetch=tftp://$ip_address/filesystem.squashfs
+APPEND initrd=gparted/initrd.img boot=live config components union=overlay username=user noswap noeject ip= vga=788 fetch=tftp://$ip_address/gparted/filesystem.squashfs
