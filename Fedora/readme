@@ -18,3 +18,24 @@ LABEL rescue
 MENU LABEL ^Rescue installed system
 KERNEL http://ip_address/fedora/isolinux/vmlinuz
 APPEND initrd=http://ip_address/fedora/isolinux/initrd.img ip=dhcp root=live:http://ip_address/fedora/LiveOS/squashfs.img rescue
+
+
+#PXE Server with Scientific Linux
+
+
+#Create the directory
+mkdir /var/www/html/fedora
+
+
+#Copy and paste into default
+default menu.c32
+prompt 0
+timeout 300
+ONTIMEOUT local
+
+MENU TITLE PXE Menu
+
+label live
+menu label Fedora 27 Workstation Live
+kernel http://ip_address/fedora/vmlinuz
+append initrd=http://ip_address/fedora/initrd.img ip=dhcp root=live:http://ip_address/fedora/squashfs.img quiet
