@@ -1,0 +1,63 @@
+#Create the following directories:
+mkdir /var/lib/tftpboot/pxelinux
+mkdir /var/lib/tftpboot/pxelinux/pxelinux.cfg
+
+#Create the default file
+touch /var/lib/tftpboot/pxelinux/pxelinux.cfg/default
+
+
+#For Legacy BIOS only
+#Download syslinux from https://www.kernel.org/pub/linux/utils/boot/syslinux/
+#Latest version (as of 11-FEB-2018) is version 6.03
+#Verify the SHA-256 of the file
+#Copy the following files from syslinux into /var/lib/tftpboot/pxelinux/
+ldlinux.c32
+libutil.c32
+lpxelinux.0
+memdisk
+menu.c32
+
+
+#Install the TFTP server
+yum install tftp-server
+systemctl start tftp
+systemctl enable tftp
+
+#Allow incoming connections to the TFTP server
+firewall-cmd --permanent --add-service=tftp
+firewall-cmd --reload
+
+
+#Install the HTTP server
+yum install httpd
+systemctl enable httpd
+systemctl start httpd
+
+#Allow incoming connections to the HTTP server
+firewall-cmd --permanent --add-service=http
+firewall-cmd --reload
+
+
+#Install the DHCP server
+yum install dhcp
+
+#Allow incoming connections to the DHCP server
+firewall-cmd --permanent --add-service=dhcp
+firewall-cmd --reload
+
+#Modify next-server, filename, and everything after subnet
+#Copy and paste into /etc/dhcp/dhcpd.conf
+allow booting;
+allow bootp;
+class "pxeclients" {
+   match if substring(option vendor-class-identifier, 0, 9) = "PXEClient";
+   next-server 192.168.20.10;
+   filename = "pxelinux/lpxelinux.0";
+}
+subnet 192.168.20.0 netmask 255.255.255.0 {
+   option routers 192.168.20.10;
+   range 192.168.20.100 192.168.20.199;
+}
+
+systemctl start dhcpd
+systemctl enable dhcpd
