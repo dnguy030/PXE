@@ -12,5 +12,5 @@ MENU TITLE PXE Menu
 
 LABEL FreeDOS 1.2 Lite
 MENU LABEL FreeDOS 1.2 Lite
-KERNEL memdisk
+LINUX memdisk
 APPEND initrd=freedos/FD12LITE.img
