@@ -6,7 +6,7 @@ nginx/html/fedora
 #Use 7-Zip to copy isolinux/vmlinuz, /isolinux/initrd.img, and LiveOS/squashfs.img to nginx/html/fedora
 
 
-#Copy and paste below into /tftpboot/pxelinux.cfg/default
+#Copy and paste below into tftpboot/pxelinux.cfg/default
 default menu.c32
 prompt 0
 timeout 300
