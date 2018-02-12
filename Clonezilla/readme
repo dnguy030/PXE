@@ -18,5 +18,5 @@ MENU TITLE PXE Menu
 
 LABEL Clonezilla-live
 MENU LABEL Clonezilla Live (Ramdisk)
-KERNEL http://ip_address/vmlinuz
-APPEND initrd=http://ip_address/initrd.img boot=live username=user union=overlay config components quiet noswap edd=on nomodeset nodmraid locales= keyboard-layouts= ocs_live_run="ocs-live-general" ocs_live_extra_param="" ocs_live_batch=no net.ifnames=0 nosplash noprompt fetch=http://ip_address/filesystem.squashfs
+KERNEL http://ip_address/clonezilla/vmlinuz
+APPEND initrd=http://ip_address/clonezilla/initrd.img boot=live username=user union=overlay config components quiet noswap edd=on nomodeset nodmraid locales= keyboard-layouts= ocs_live_run="ocs-live-general" ocs_live_extra_param="" ocs_live_batch=no net.ifnames=0 nosplash noprompt fetch=http://ip_address/clonezilla/filesystem.squashfs
