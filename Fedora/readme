@@ -14,7 +14,7 @@ ONTIMEOUT local
 
 MENU TITLE PXE Menu
 
-label rescue
-menu label ^Rescue installed system
-kernel http://ip_address/fedora/isolinux/vmlinuz
-append initrd=http://ip_address/fedora/isolinux/initrd.img ip=dhcp root=live:http://ip_address/fedora/LiveOS/squashfs.img rescue
+LABEL rescue
+MENU LABEL ^Rescue installed system
+KERNEL http://ip_address/fedora/isolinux/vmlinuz
+APPEND initrd=http://ip_address/fedora/isolinux/initrd.img ip=dhcp root=live:http://ip_address/fedora/LiveOS/squashfs.img rescue
