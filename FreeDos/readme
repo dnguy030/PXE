@@ -1,10 +1,11 @@
 #FreeDOS 1.2
-#Create the freedos directory under nginx's html directory and copy all related files there
-/nginx/html/freedos
+#Create the freedos directory under nginx's html directory
+nginx/html/freedos
+
 
 ##PXE boot FD12LITE.img and FD12FULL.img##
 #Copy FD12LITE.img and FD12FULL.img to the freedos directory
-#Copy and paste below into /tftpboot/pxelinux.cfg/default
+#Copy and paste below into tftpboot/pxelinux.cfg/default
 default menu.c32
 prompt 0
 timeout 300
