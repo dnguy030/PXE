@@ -1,8 +1,27 @@
+#Download and unzip nginx for windows
+#Configure wf.msc to allow inbound traffic to TCP port 80
+#Run nginx
+
+
 #Create the file and folders below:
 /tftpboot
 /tftpboot/pxelinux.cfg/default
 
+
+#For Legacy BIOS only
+#Download syslinux from https://www.kernel.org/pub/linux/utils/boot/syslinux/
+#Latest version (as of 11-FEB-2018) is version 6.03
+#Verify the SHA-256 of the file
+#Unzip the following files from syslinux into the tftpboot directory:
+ldlinux.c32
+libutil.c32
+lpxelinux.0
+memdisk
+menu.c32
+
+
 #Download tftpd64 portable edition from http://tftpd32.jounin.net/
+#Configure wf.msc to allow inbound traffic to UDP ports 68 and 69
 #Unzip and run tftpd64.
 #Under the TFTP settings tab, configure the base directory (full path to the tftpboot directory).
 #Under the DHCP settings tab, configure the following:
@@ -11,14 +30,3 @@ Size of pool
 Boot file
 Def. router
 Netmask
-
-#For Legacy BIOS only
-#Download syslinux from https://www.kernel.org/pub/linux/utils/boot/syslinux/
-#Latest version (as of 11-FEB-2018) is version 6.03
-#Verify the SHA-256 of the file
-#Unzip the following files from syslinux into the tftpboot directory:
-pxelinux.0
-menu.c32
-ldlinux.c32
-libutil.c32
-memdisk
