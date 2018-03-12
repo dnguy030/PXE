@@ -1,3 +1,12 @@
+#Install the TFTP server
+yum install tftp-server
+systemctl start tftp
+systemctl enable tftp
+
+#Allow incoming connections to the TFTP server
+firewall-cmd --permanent --add-service=tftp
+firewall-cmd --reload
+
 #Create the following directories:
 mkdir /var/lib/tftpboot/pxelinux
 mkdir /var/lib/tftpboot/pxelinux/pxelinux.cfg
@@ -16,16 +25,6 @@ libutil.c32
 lpxelinux.0
 memdisk
 menu.c32
-
-
-#Install the TFTP server
-yum install tftp-server
-systemctl start tftp
-systemctl enable tftp
-
-#Allow incoming connections to the TFTP server
-firewall-cmd --permanent --add-service=tftp
-firewall-cmd --reload
 
 
 #Install the HTTP server
