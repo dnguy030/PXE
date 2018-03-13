@@ -1,6 +1,3 @@
-#PXE Server with Scientific Linux
-
-
 #Download the Fedora 27 Workstation 64-bit live image
 #Extract isolinux/vmlinuz, /isolinux/initrd.img, and LiveOS/squashfs.img
 
@@ -20,3 +17,8 @@ label live
 menu label Fedora 27 Workstation Live
 kernel http://ip_address/fedora/vmlinuz
 append initrd=http://ip_address/fedora/initrd.img ip=dhcp root=live:http://ip_address/fedora/squashfs.img quiet
+
+label rescue
+menu label ^Rescue installed system
+kernel http://ip_address/fedora/vmlinuz
+append initrd=http://ip_address/fedora/initrd.img ip=dhcp root=live:http://ip_address/fedora/squashfs.img rescue
