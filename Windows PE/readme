@@ -30,3 +30,8 @@ MENU LABEL Windows PE
 LINUX memdisk
 INITRD http://ip_address/WinPE_amd64.iso
 APPEND iso raw
+
+
+#Copy the files from the Windows 10 ISO to a SMB share.
+#To connect to the share in Windows PE:
+#net use driver_letter_of_choice: \\nas_ip_address /user:username_goes_here password_here
