@@ -1,0 +1,32 @@
+#Windows ADK for Windows 10, version 1709
+
+
+#Open Powershell as administrator and download Windows ADK offline files.
+.\adksetup /layout C:\Users\User\Downloads\temp
+
+#Install Windows ADK.
+cd C:\Users\User\Downloads\temp
+.\adksetup /features OptionId.DeploymentTools OptionId.WindowsPreinstallationEnvironment
+
+#Create the Windows PE ISO.
+#Click Start, and type deployment. Right-click Deployment and Imaging Tools Environment and then select Run as administrator.
+#Create a working copy of the Windows PE files.
+copype amd64 C:\Users\User\Downloads\WinPE_amd64
+#Create an ISO file containing the Windows PE files:
+MakeWinPEMedia /ISO C:\Users\User\Downloads\WinPE_amd64 C:\Users\User\Downloads\WinPE_amd64\WinPE_amd64.iso
+
+#Upload the ISO file into /var/www/html
+
+#Copy and paste into pxelinux.cfg/default. "raw" is required.
+default menu.c32
+prompt 0
+timeout 300
+ONTIMEOUT local
+
+MENU TITLE PXE Menu
+
+LABEL Windows PE
+MENU LABEL Windows PE
+LINUX memdisk
+INITRD http://ip_address/WinPE_amd64.iso
+APPEND iso raw
