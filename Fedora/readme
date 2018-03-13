@@ -1,29 +1,10 @@
-#Create the fedora directory under nginx's html directory
-nginx/html/fedora
-
-
-#Download the Fedora Workstation 64-bit live image
-#Use 7-Zip to copy isolinux/vmlinuz, /isolinux/initrd.img, and LiveOS/squashfs.img to nginx/html/fedora
-
-
-#Copy and paste below into tftpboot/pxelinux.cfg/default
-default menu.c32
-prompt 0
-timeout 300
-ONTIMEOUT local
-
-MENU TITLE PXE Menu
-
-LABEL rescue
-MENU LABEL ^Rescue installed system
-KERNEL http://ip_address/fedora/isolinux/vmlinuz
-APPEND initrd=http://ip_address/fedora/isolinux/initrd.img ip=dhcp root=live:http://ip_address/fedora/LiveOS/squashfs.img rescue
-
-
 #PXE Server with Scientific Linux
 
 
-#Create the directory
+#Download the Fedora 27 Workstation 64-bit live image
+#Extract isolinux/vmlinuz, /isolinux/initrd.img, and LiveOS/squashfs.img
+
+#Create the directory and copy the 3 extracted files into it.
 mkdir /var/www/html/fedora
 
 
