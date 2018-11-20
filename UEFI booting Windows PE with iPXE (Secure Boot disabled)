@@ -1,0 +1,78 @@
+#UEFI booting Windows PE with iPXE (Secure Boot disabled)
+
+#Install the TFTP server
+yum install tftp-server
+systemctl start tftp
+systemctl enable tftp
+
+#Allow incoming connections to the TFTP server
+firewall-cmd --permanent --zone=public --add-service=tftp
+firewall-cmd --reload
+
+#Upload ipxe.efi to the directory, /var/lib/tftpboot
+
+#Create the boot.ipxe filename
+touch /var/lib/tftpboot
+
+#Working boot.ipxe
+#!ipxe
+kernel http://192.168.20.1/wimboot
+initrd http://192.168.20.1/media/Boot/BCD
+initrd http://192.168.20.1/media/Boot/boot.sdi
+initrd http://192.168.20.1/media/sources/boot.wim
+boot
+
+
+#Install the HTTP server
+yum install httpd
+systemctl enable httpd
+systemctl start httpd
+
+#Allow incoming connections to the HTTP server
+firewall-cmd --permanent --zone=public --add-service=http
+firewall-cmd --reload
+
+#Upload the following into /var/www/html
+#wimboot
+#The contents of Windows PE
+
+
+#Install the DHCP server
+yum install dhcp
+
+#Allow incoming connections to the DHCP server
+firewall-cmd --permanent --zone=public --add-service=dhcp
+firewall-cmd --reload
+
+#Working configuration for /etc/dhcp/dhcpd.conf
+allow booting;
+allow bootp;
+option client-system-arch code 93 = unsigned integer 16;
+class "pxeclients" {
+   match if substring(option vendor-class-identifier, 0, 9) = "PXEClient";
+   next-server 192.168.20.1;
+   if option client-system-arch = 00:07 or option client-system-arch = 00:09 {
+      if exists user-class and option user-class = "iPXE" {
+         filename = "boot.ipxe";
+      } else {
+         filename = "ipxe.efi";
+      }
+   }
+}
+subnet 192.168.20.0 netmask 255.255.255.0 {
+   option routers 192.168.20.1;
+   range 192.168.20.100 192.168.20.199;
+}
+
+#Start and enable the DHCP server
+systemctl start dhcpd
+systemctl enable dhcpd
+
+#Restart the DHCP server if there are changes to dhcpd.conf
+systemctl restart dhcpd
+
+#Sources
+#https://www.dell.com/support/article/us/en/04/how12285/how-to-configure-pxe-booting-over-uefi-on-a-poweredge-without-using-server-2012-and-windows-deployment-services?lang=en
+#https://docs.vmware.com/en/VMware-vSphere/6.5/com.vmware.vsphere.upgrade.doc/GUID-91E32FD0-A33C-4302-9FAB-B52B8A5CEFBC.html
+#http://ipxe.org/wimboot
+#http://ipxe.org/howto/winpe
